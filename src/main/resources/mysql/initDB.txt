@@ -1,0 +1,39 @@
+mysql --user=root --password=admin
+CREATE DATABASE IF NOT EXISTS shop_rest;
+
+USE shop_rest;
+
+create table customer (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(30) NOT NULL,
+  last_name VARCHAR(30) NOT NULL,
+  street VARCHAR(30) NOT NULL,
+  city VARCHAR(30) NOT NULL,
+  state VARCHAR(30) NOT NULL,
+  zip VARCHAR(30) NOT NULL,
+  country VARCHAR(30) NOT NULL,
+  email VARCHAR(50) NOT NULL
+);
+
+create table product (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(2000) NOT NULL,
+  cost DECIMAL(6,2) UNSIGNED NOT NULL
+);
+
+create table  line_item(
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  quantity INT(4) UNSIGNED NOT NULL,
+  date DATE NOT NULL,
+  product_id INT(4) UNSIGNED NOT NULL,
+  FOREIGN KEY (product_id) REFERENCES product(id)
+);
+
+create table order (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  total DECIMAL(6,2) UNSIGNED NOT NULL,
+  date DATE NOT NULL,
+  customer_id INT(4) UNSIGNED NOT NULL,
+  FOREIGN KEY (customer_id) REFERENCES customer(id)
+);
+

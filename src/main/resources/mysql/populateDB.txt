@@ -1,0 +1,4 @@
+insert into product (id, name, cost) values (1,'KTM SMT', 9000.00)
+insert into customer (id, first_name, last_name, street, city, state, zip, country, email) values (1,'Tom','Cruise', 'Arthur Street', 'Birmingham','Warwickshire', 'B11 2BX', 'UK','tomcuise@hotmail.com');
+
+
