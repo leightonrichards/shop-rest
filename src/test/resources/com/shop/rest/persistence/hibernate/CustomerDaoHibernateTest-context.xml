@@ -18,7 +18,7 @@
 
     <tx:annotation-driven/>
 
-    <context:component-scan base-package="com.shop.rest.persistence"/>
+    <context:component-scan base-package="com.shop.rest.persistence.hibernate"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
           p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
