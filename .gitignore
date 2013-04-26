@@ -1,5 +1,7 @@
 *.class
 *.log
+*.1
+
 .idea
 # sbt specific
 dist/*
