@@ -1,6 +1,7 @@
 *.class
 *.log
 *.1
+*.iml
 
 .idea
 # sbt specific
