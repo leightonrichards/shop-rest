@@ -1,8 +1,9 @@
-package com.shop.rest.persistence
+package com.shop.rest.persistence.hibernate
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.hibernate.SessionFactory
 import java.lang.reflect.{Type, ParameterizedType}
+import com.shop.rest.persistence.AbstractDao
 
 class HibernateDao[T] extends AbstractDao[T]
 {
