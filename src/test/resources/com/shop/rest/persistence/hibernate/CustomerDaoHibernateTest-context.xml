@@ -12,5 +12,48 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 			http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-    <import resource="DaoHibernateTest-context.xml"/>
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <context:annotation-config/>
+
+    <tx:annotation-driven/>
+
+    <context:component-scan base-package="com.shop.rest.persistence.hibernate"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+          p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
+          p:username="${jdbc.username}" p:password="${jdbc.password}"/>
+
+
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="NONE" enabled="${hibernate.init_database}" >
+        <jdbc:script location="${jdbc.initLocation}"/>
+        <jdbc:script location="${jdbc.dataLocation}"/>
+    </jdbc:initialize-database>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.shop.rest.domain.Customer</value>
+                <value>com.shop.rest.domain.LineItem</value>
+                <value>com.shop.rest.domain.Order</value>
+                <value>com.shop.rest.domain.Product</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory" />
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <bean class="org.springframework.orm.hibernate4.HibernateExceptionTranslator"/>
+
 </beans>
