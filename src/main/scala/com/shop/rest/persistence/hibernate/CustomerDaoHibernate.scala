@@ -2,7 +2,7 @@ package com.shop.rest.persistence.hibernate
 
 import com.shop.rest.domain.Customer
 import org.springframework.stereotype.Repository
-import com.shop.rest.persistence.{CustomerDAO}
+import com.shop.rest.persistence.{CustomerDAO, AbstractDao}
 
 @Repository
 class CustomerDaoHibernate extends HibernateDao[Customer] with CustomerDAO

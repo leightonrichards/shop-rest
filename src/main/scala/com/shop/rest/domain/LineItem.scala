@@ -1,17 +1,26 @@
 package com.shop.rest.domain
 
-import javax.persistence.{Table, Entity}
+import javax.persistence._
 import scala.beans.BeanProperty
+import java.util.Date
 
 @Entity
 @Table(name = "line_item")
-class LineItem extends AbstractEntity {
-  @BeanProperty
-  var quantity: Int = 0
+class LineItem(@BeanProperty var quantity: Int,
+               @BeanProperty var date: Date,
+               p: Product,
+               o: Order) extends AbstractEntity {
+  @OneToOne
+  @JoinColumn(name = "product_id")
+  @BeanProperty var product: Product = p
 
-  @BeanProperty
-  var date: String = null
+  @ManyToOne
+  @JoinColumn(name = "order_id")
+  @BeanProperty var order: Order = o
 
-  @BeanProperty
-  var productId: String = null
+  def this() = this(0,new Date(),new Product(),new Order())
+  def ==(that: LineItem): Boolean = { this.getDate==that.getDate &&
+    this.getOrder==that.getOrder &&
+    this.getProduct == that.getProduct &&
+    this.getQuantity == that.getQuantity}
 }

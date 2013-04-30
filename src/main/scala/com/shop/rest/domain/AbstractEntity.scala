@@ -4,7 +4,7 @@ import javax.persistence.{MappedSuperclass, GeneratedValue, Id}
 import beans.BeanProperty
 
 @MappedSuperclass
-abstract class AbstractEntity {
+abstract class AbstractEntity extends Serializable{
   @Id
   @GeneratedValue
   @BeanProperty

@@ -1,35 +1,21 @@
 package com.shop.rest.domain
 
-import javax.persistence.{Column, Table, Entity}
+import javax.persistence.{OneToMany, Table, Entity}
 import scala.beans.BeanProperty
+import java.util.HashSet
+import java.util
 
 @Entity
 @Table(name = "customer")
-class Customer extends AbstractEntity {
-  @BeanProperty
-  @Column(name = "first_name")
-  var firstName: String = null
-
-
-  @BeanProperty
-  @Column(name = "last_name")
-  var lastName: String = null
-
-  @BeanProperty
-  var street: String = null
-
-  @BeanProperty
-  var city: String = null
-
-  @BeanProperty
-  var state: String = null
-
-  @BeanProperty
-  var zip: String = null
-
-  @BeanProperty
-  var country: String = null
-
-  @BeanProperty
-  var email: String = null
+class Customer(@BeanProperty var city: String,
+               @BeanProperty var country: String,
+               @BeanProperty var email: String,
+               @BeanProperty var first_name: String,
+               @BeanProperty var last_name: String,
+               @BeanProperty var state: String,
+               @BeanProperty var street: String,
+               @BeanProperty var zip: String
+               ) extends AbstractEntity
+{
+  def this()=this("","","","","","","","")
 }

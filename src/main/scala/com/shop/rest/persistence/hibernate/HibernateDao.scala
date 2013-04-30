@@ -4,15 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.hibernate.SessionFactory
 import java.lang.reflect.{Type, ParameterizedType}
 import com.shop.rest.persistence.AbstractDao
+import com.shop.rest.domain.AbstractEntity
+import java.util
 
-class HibernateDao[T] extends AbstractDao[T]
+class HibernateDao[T <: AbstractEntity] extends AbstractDao[T]
 {
   @Autowired
   var sessionFactory: SessionFactory = null
 
   def currentSession = sessionFactory.getCurrentSession
 
-  private def figureOutPersistentClass: Class[T] =
+  protected def figureOutPersistentClass: Class[T] =
   {
     val parameterizedType: ParameterizedType = (getClass.getGenericSuperclass).asInstanceOf[ParameterizedType]
     val arguments: Array[Type] = parameterizedType.getActualTypeArguments
@@ -26,4 +28,6 @@ class HibernateDao[T] extends AbstractDao[T]
   def update(obj: T) {currentSession.update(obj)}
 
   def delete(obj: T) {currentSession.delete(obj)}
+
+  def fetchAll(): util.List[T] = currentSession.createCriteria(figureOutPersistentClass).list().asInstanceOf[util.List[T]]
 }

@@ -21,15 +21,7 @@ create table product (
   cost DECIMAL(6,2) UNSIGNED NOT NULL
 );
 
-create table  line_item(
-  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  quantity INT(4) UNSIGNED NOT NULL,
-  date DATE NOT NULL,
-  product_id INT(4) UNSIGNED NOT NULL,
-  FOREIGN KEY (product_id) REFERENCES product(id)
-);
-
-create table order (
+create table cust_order (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   total DECIMAL(6,2) UNSIGNED NOT NULL,
   date DATE NOT NULL,
@@ -37,3 +29,12 @@ create table order (
   FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
+create table  line_item(
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  quantity INT(4) UNSIGNED NOT NULL,
+  date DATE NOT NULL,
+  product_id INT(4) UNSIGNED NOT NULL,
+  order_id INT(4) UNSIGNED NOT NULL,
+  FOREIGN KEY (product_id) REFERENCES product(id),
+  FOREIGN KEY (order_id) REFERENCES cust_order(id)
+);
