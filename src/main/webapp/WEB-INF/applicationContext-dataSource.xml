@@ -24,14 +24,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
 			p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
 			p:username="${jdbc.username}" p:password="${jdbc.password}"/>
-	
-	<!-- JNDI DataSource for JEE environments -->
-	<!--
-	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/petclinic"/>
-	-->
 
-	<!-- Database initializer. If any of the script fails, the initialization stops. -->
-	<!-- As an alternative, for embedded databases see <jdbc:embedded-database/>. -->
     <jdbc:initialize-database data-source="dataSource" ignore-failures="NONE" enabled="${hibernate.init_database}" >
 		<jdbc:script location="${jdbc.initLocation}"/>
 		<jdbc:script location="${jdbc.dataLocation}"/>

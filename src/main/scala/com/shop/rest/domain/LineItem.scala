@@ -3,9 +3,11 @@ package com.shop.rest.domain
 import javax.persistence._
 import scala.beans.BeanProperty
 import java.util.Date
+import javax.xml.bind.annotation.XmlRootElement
 
 @Entity
 @Table(name = "line_item")
+@XmlRootElement
 class LineItem(@BeanProperty var quantity: Int,
                @BeanProperty var date: Date,
                p: Product,

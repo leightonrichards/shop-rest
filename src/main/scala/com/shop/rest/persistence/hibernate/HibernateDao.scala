@@ -1,13 +1,13 @@
 package com.shop.rest.persistence.hibernate
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.hibernate.SessionFactory
+import org.hibernate.{Criteria, SessionFactory}
 import java.lang.reflect.{Type, ParameterizedType}
-import com.shop.rest.persistence.AbstractDao
+import com.shop.rest.persistence.GenericDao
 import com.shop.rest.domain.AbstractEntity
 import java.util
 
-class HibernateDao[T <: AbstractEntity] extends AbstractDao[T]
+class HibernateDao[T <: AbstractEntity] extends GenericDao[T]
 {
   @Autowired
   var sessionFactory: SessionFactory = null
@@ -29,5 +29,7 @@ class HibernateDao[T <: AbstractEntity] extends AbstractDao[T]
 
   def delete(obj: T) {currentSession.delete(obj)}
 
-  def fetchAll(): util.List[T] = currentSession.createCriteria(figureOutPersistentClass).list().asInstanceOf[util.List[T]]
+  def fetchAll(): util.List[T] = criteria.list().asInstanceOf[util.List[T]]
+
+  def criteria: Criteria =    currentSession.createCriteria(figureOutPersistentClass)
 }

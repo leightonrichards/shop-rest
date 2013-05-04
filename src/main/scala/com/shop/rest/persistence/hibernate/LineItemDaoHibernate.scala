@@ -9,6 +9,6 @@ import org.hibernate.criterion.Restrictions
 @Repository
 class LineItemDaoHibernate extends HibernateDao[LineItem] with LineItemDAO
 {
-  def fetchFor(order:Order): util.List[LineItem] = currentSession.createCriteria(figureOutPersistentClass)
+  def fetchFor(order:Order): util.List[LineItem] = criteria
     .add(Restrictions.eq("order", order)).list().asInstanceOf[util.List[LineItem]]
 }

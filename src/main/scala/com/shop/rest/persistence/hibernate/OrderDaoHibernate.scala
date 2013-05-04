@@ -9,6 +9,6 @@ import org.hibernate.criterion.Restrictions
 @Repository
 class OrderDaoHibernate extends HibernateDao[Order] with OrderDAO
 {
-  def fetchFor(customer:Customer): util.List[Order] = currentSession.createCriteria(figureOutPersistentClass)
+  def fetchFor(customer:Customer): util.List[Order] = criteria
     .add(Restrictions.eq("customer", customer)).list().asInstanceOf[util.List[Order]]
 }
