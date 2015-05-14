@@ -7,18 +7,20 @@ import org.springframework.test.context.support.{DirtiesContextTestExecutionList
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import com.shop.rest.domain.Product
-import com.shop.rest.persistence.ProductDAO
 import org.junit.{Test, Before}
-import java.util
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests
+import org.springframework.test.context.junit4.{SpringJUnit4ClassRunner, AbstractTransactionalJUnit4SpringContextTests}
+import scala.collection.mutable
+import com.shop.rest.service.ProductService
+import org.junit.runner.RunWith
 
 @ContextConfiguration
 @DirtiesContext
 @TestExecutionListeners(Array(classOf[TransactionalTestExecutionListener], classOf[DependencyInjectionTestExecutionListener], classOf[DirtiesContextTestExecutionListener]))
 @Transactional
-class ProductDaoHibernateTest extends AbstractTransactionalJUnit4SpringContextTests{
+@RunWith(classOf[SpringJUnit4ClassRunner])
+class ProductDaoHibernateTest{
   @Autowired
-  val dao: ProductDAO = null
+  val Service: ProductService = null
 
   val product1 = new Product("Baked Beans",2.00f)
   val product2 = new Product("Spaghetti",3.00f)
@@ -26,19 +28,19 @@ class ProductDaoHibernateTest extends AbstractTransactionalJUnit4SpringContextTe
 
   @Before
   def setUpData(){
-    dao.add(product1)
-    dao.add(product2)
+    Service.add(product1)
+    Service.add(product2)
   }
 
   @Test
   def testFetchAll(){
-    val all: util.List[Product] = dao.fetchAll()
-    assert(all.size()==2)
+    val all: mutable.Buffer[Product] = Service.fetchAll()
+    assert(all.length==2)
   }
 
   @Test
   def testGet(){
-    val product: Product = dao.get(product1.getId)
+    val product: Product = Service.get(product1.getId).get
     assert(product==product1)
   }
 }

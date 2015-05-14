@@ -6,66 +6,42 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.support.{DirtiesContextTestExecutionListener, DependencyInjectionTestExecutionListener}
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.beans.factory.annotation.Autowired
-import com.shop.rest.domain.{Address, Customer, Order}
-import com.shop.rest.persistence.{CustomerDAO, OrderDAO}
+import com.shop.rest.domain.{Address, Customer}
 import org.junit.{Test, Before}
-import java.util
 import org.springframework.test.context.junit4.{SpringJUnit4ClassRunner, AbstractTransactionalJUnit4SpringContextTests}
-import java.util.Date
+import com.shop.rest.service.{AddressService, CustomerService}
 import scala.collection.mutable
-import com.shop.rest.service.AddressService
 import org.junit.runner.RunWith
 
 @ContextConfiguration
 @DirtiesContext
 @TestExecutionListeners(Array(classOf[TransactionalTestExecutionListener], classOf[DependencyInjectionTestExecutionListener], classOf[DirtiesContextTestExecutionListener]))
-@Transactional
 @RunWith(classOf[SpringJUnit4ClassRunner])
-class OrderDaoHibernateTest{
+@Transactional
+class AddressDaoHibernateTest
+{
   @Autowired
-  val dao: OrderDAO = null
+  val service: AddressService = null
 
-  @Autowired
-  val customerDao: CustomerDAO = null
-
-  @Autowired
-  val addressService: AddressService = null
-
-  val address1 = new Address("London", "UK", "Warks", "High Street", "B11")
+  val address1 = new Address("London", "UK", "Warks", "High Street", "L11")
   val address2 = new Address("Birmingham", "UK", "West Mids", "Regent Street", "B11")
   val customer1 = new Customer("tom@cruise.com", "Tom", "Cruise", "tom.cruise","password",address1)
   val customer2 = new Customer("Frank@Sinatra.com", "Frank", "Sinatra", "frank.sinatra","password",address2)
-  val order1 = new Order(20.00f,new Date(),customer1)
-  val order2 = new Order(30.00f,new Date(),customer1)
-  val order3 = new Order(40.00f,new Date(),customer2)
-
 
   @Before
   def setUpData(){
-    customerDao.add(customer1)
-    customerDao.add(customer2)
-    dao.add(order1)
-    dao.add(order2)
-    dao.add(order3)
+    service.add(address1)
+    service.add(address2)
   }
 
   @Test
-  def testFetchAll(){
-    val all: mutable.Buffer[Order] = dao.fetchAll()
-    assert(all.length==3)
+  def testFetchAllAddresses(){
+    assert(service.fetchAll().length==2)
   }
 
   @Test
-  def testFetchAllOrdersForCustomer(){
-    val orders1: mutable.Buffer[Order] = dao.fetchFor(customer1)
-    assert(orders1.length==2)
-    val orders2: mutable.Buffer[Order] = dao.fetchFor(customer2)
-    assert(orders2.length==1)
-  }
-
-  @Test
-  def testGet(){
-    val order: Order = dao.get(order1.getId).get
-    assert(order==order1)
+  def testGetAddressById(){
+    val address: Address = service.get(address1.getId).get
+    assert(address==address1)
   }
 }

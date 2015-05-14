@@ -4,6 +4,7 @@ import javax.persistence._
 import scala.beans.BeanProperty
 import java.util.Date
 import javax.xml.bind.annotation.XmlRootElement
+import com.shop.rest.entity.AbstractEntity
 
 @Entity
 @Table(name = "cust_order")

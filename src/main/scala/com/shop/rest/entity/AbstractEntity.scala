@@ -1,9 +1,10 @@
-package com.shop.rest.domain
+package com.shop.rest.entity
 
-import javax.persistence.{MappedSuperclass, GeneratedValue, Id}
+import javax.persistence._
 import beans.BeanProperty
 
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 abstract class AbstractEntity extends Serializable{
   @Id
   @GeneratedValue

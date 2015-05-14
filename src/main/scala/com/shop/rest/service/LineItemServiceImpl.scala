@@ -1,7 +1,7 @@
 package com.shop.rest.service
 
-import com.shop.rest.domain.Customer
-import com.shop.rest.persistence.CustomerDAO
+import com.shop.rest.domain.{Order, LineItem}
+import com.shop.rest.persistence.LineItemDAO
 import org.springframework.beans.factory.annotation.Autowired
 import scala.collection.mutable
 import org.springframework.stereotype.Service
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service
  * To change this template use File | Settings | File Templates.
  */
 @Service
-class CustomerServiceImpl() extends GenericServiceImpl[Customer] with CustomerService
+class LineItemServiceImpl() extends GenericServiceImpl[LineItem] with LineItemService
 {
-  @Autowired val dao: CustomerDAO = null
-  def fetchFor(email:String): mutable.Buffer[Customer] = dao.fetchFor(email)
+  @Autowired val dao: LineItemDAO = null
+  def fetchFor(order: Order): mutable.Buffer[LineItem] = dao.fetchFor(order)
 }

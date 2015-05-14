@@ -1,18 +1,21 @@
 package com.shop.rest.persistence.hibernate
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.hibernate.{Criteria, SessionFactory}
 import java.lang.reflect.{Type, ParameterizedType}
 import com.shop.rest.persistence.GenericDao
-import com.shop.rest.domain.AbstractEntity
-import java.util
+import scala.collection.convert.WrapAsScala._
+import scala.collection.mutable
+import com.shop.rest.entity.AbstractEntity
+import javax.persistence.{ EntityManager}
+import javax.persistence.criteria.{Predicate, Root, CriteriaBuilder, CriteriaQuery}
 
 class HibernateDao[T <: AbstractEntity] extends GenericDao[T]
 {
   @Autowired
-  var sessionFactory: SessionFactory = null
+  val entityManager: EntityManager  = null
 
-  def currentSession = sessionFactory.getCurrentSession
+  @Autowired
+  val jpaBridge: JavaJPABridge[T] = null
 
   protected def figureOutPersistentClass: Class[T] =
   {
@@ -21,15 +24,34 @@ class HibernateDao[T <: AbstractEntity] extends GenericDao[T]
     arguments(0).asInstanceOf[Class[T]]
   }
 
-  def add(obj: T) {currentSession.save(obj)}
+  def add(obj: T) {entityManager.persist(obj)}
 
-  def get(id: Int):T = currentSession.get(figureOutPersistentClass, id).asInstanceOf[T]
+  def get(id: Int):Option[T] =     Option(entityManager.find(figureOutPersistentClass, id))
 
-  def update(obj: T) {currentSession.update(obj)}
+  def update(obj: T) {entityManager.persist(obj)}
 
-  def delete(obj: T) {currentSession.delete(obj)}
+  def delete(obj: T) {entityManager.remove(obj)}
 
-  def fetchAll(): util.List[T] = criteria.list().asInstanceOf[util.List[T]]
+  def fetchAll(): mutable.Buffer[T] =
+  {
+    val builder: CriteriaBuilder = entityManager.getCriteriaBuilder
+    val criteria: CriteriaQuery[T] = builder.createQuery(figureOutPersistentClass)
+    val entity:Root[T] = criteria.from(figureOutPersistentClass)
+    criteria.select(entity)
 
-  def criteria: Criteria =    currentSession.createCriteria(figureOutPersistentClass)
+    entityManager.createQuery(criteria).getResultList
+  }
+
+  def fetchFor(attributeName: String, attribute: Object): mutable.Buffer[T] =
+  {
+    jpaBridge.fetchFor(attributeName,attribute,figureOutPersistentClass)
+    /*val builder: CriteriaBuilder = entityManager.getCriteriaBuilder
+    val criteria: CriteriaQuery[T] = builder.createQuery(figureOutPersistentClass)
+    val entity:Root[T] = criteria.from(figureOutPersistentClass)
+    val pred: Predicate = entity.get(attributeName).in(attribute)
+    criteria.where(pred)
+    entityManager.createQuery(criteria).getResultList
+    */
+  }
+
 }

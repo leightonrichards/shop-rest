@@ -3,6 +3,7 @@ package com.shop.rest.domain
 import javax.persistence.{Table, Entity}
 import scala.beans.BeanProperty
 import javax.xml.bind.annotation.XmlRootElement
+import com.shop.rest.entity.AbstractEntity
 
 @Entity
 @Table(name = "product")

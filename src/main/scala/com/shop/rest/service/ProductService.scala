@@ -1,7 +1,6 @@
 package com.shop.rest.service
 
-import com.shop.rest.domain.Customer
-import scala.collection.mutable
+import com.shop.rest.domain.Product
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,6 +9,4 @@ import scala.collection.mutable
  * Time: 13:37
  * To change this template use File | Settings | File Templates.
  */
-trait CustomerService extends GenericService[Customer]{
-  def fetchFor(email:String): mutable.Buffer[Customer]
-}
+trait ProductService extends GenericService[Product]

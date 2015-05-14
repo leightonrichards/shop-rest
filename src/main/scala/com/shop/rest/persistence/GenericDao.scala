@@ -1,12 +1,12 @@
 package com.shop.rest.persistence
 
-import com.shop.rest.domain.AbstractEntity
-import java.util
+import scala.collection.mutable
+import com.shop.rest.entity.AbstractEntity
 
 trait GenericDao [T <: AbstractEntity]{
   def add(obj: T)
-  def get(id: Int):T
+  def get(id: Int):Option[T]
   def update(obj: T)
   def delete(obj: T)
-  def fetchAll():util.List[T]
+  def fetchAll():mutable.Buffer[T]
 }

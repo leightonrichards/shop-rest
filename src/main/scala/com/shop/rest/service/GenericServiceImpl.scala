@@ -2,9 +2,8 @@ package com.shop.rest.service
 
 import org.springframework.stereotype.Service
 import com.shop.rest.persistence.GenericDao
-import com.shop.rest.domain.{Customer, AbstractEntity}
-import scala.collection.convert.WrapAsScala._
 import scala.collection.mutable
+import com.shop.rest.entity.AbstractEntity
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,15 +15,15 @@ import scala.collection.mutable
 @Service
 abstract class GenericServiceImpl[T <: AbstractEntity]{
 
-  def getDao():GenericDao[T]
+  val dao: GenericDao[T]
 
-  def add(obj: T) {getDao().add(obj)}
+  def add(obj: T) {dao.add(obj)}
 
-  def get(id: Int):T = getDao().get(id)
+  def get(id: Int):Option[T] = dao.get(id)
 
-  def update(obj: T) {getDao().update(obj)}
+  def update(obj: T) {dao.update(obj)}
 
-  def delete(obj: T) {getDao().delete(obj)}
+  def delete(obj: T) {dao.delete(obj)}
 
-  def fetchAll(): mutable.Buffer[T] = getDao().fetchAll()
+  def fetchAll(): mutable.Buffer[T] = dao.fetchAll()
 }

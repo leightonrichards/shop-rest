@@ -1,23 +1,22 @@
 package com.shop.rest.domain
 
-import javax.persistence.{OneToMany, Table, Entity}
+import javax.persistence._
 import scala.beans.BeanProperty
 import java.util.HashSet
 import java.util
 import javax.xml.bind.annotation.XmlRootElement
+import com.shop.rest.entity.AbstractEntity
 
 @Entity
 @Table(name = "customer")
 @XmlRootElement
-class Customer(@BeanProperty var city: String,
-               @BeanProperty var country: String,
-               @BeanProperty var email: String,
-               @BeanProperty var first_name: String,
-               @BeanProperty var last_name: String,
-               @BeanProperty var state: String,
-               @BeanProperty var street: String,
-               @BeanProperty var zip: String
+class Customer( @BeanProperty var email: String,
+                @BeanProperty var firstname: String,
+                @BeanProperty var lastname: String,
+                @UniqueConstraint(columnNames=Array("username")) @BeanProperty var username: String,
+                @BeanProperty var password: String,
+                @JoinColumn(name = "address_id") @OneToOne @BeanProperty var address: Address
                ) extends AbstractEntity
 {
-  def this()=this("","","","","","","","")
+  def this()=this("","","","","",new Address())
 }

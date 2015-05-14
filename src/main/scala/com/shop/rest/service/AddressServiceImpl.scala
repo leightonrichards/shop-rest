@@ -1,7 +1,7 @@
 package com.shop.rest.service
 
-import com.shop.rest.domain.Customer
-import com.shop.rest.persistence.CustomerDAO
+import com.shop.rest.domain.{Address, Customer}
+import com.shop.rest.persistence.{AddressDAO}
 import org.springframework.beans.factory.annotation.Autowired
 import scala.collection.mutable
 import org.springframework.stereotype.Service
@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service
  * To change this template use File | Settings | File Templates.
  */
 @Service
-class CustomerServiceImpl() extends GenericServiceImpl[Customer] with CustomerService
+class AddressServiceImpl() extends GenericServiceImpl[Address] with AddressService
 {
-  @Autowired val dao: CustomerDAO = null
-  def fetchFor(email:String): mutable.Buffer[Customer] = dao.fetchFor(email)
+  @Autowired val dao: AddressDAO = null
 }

@@ -1,8 +1,7 @@
 package com.shop.rest.service
 
-import com.shop.rest.persistence.GenericDao
 import scala.collection.mutable
-import com.shop.rest.domain.AbstractEntity
+import com.shop.rest.entity.AbstractEntity
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,11 +11,10 @@ import com.shop.rest.domain.AbstractEntity
  * To change this template use File | Settings | File Templates.
  */
 trait GenericService[T <: AbstractEntity] {
-  def getDao():GenericDao[T]
 
   def add(obj: T)
 
-  def get(id: Int):T
+  def get(id: Int):Option[T]
 
   def update(obj: T)
 
